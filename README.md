@@ -2,7 +2,7 @@
 파이썬 공부 내역을 올립니다!
 
 # 도움받은 곳
-<a href="http://tcpschool.com/python2018/intro">TCP School</a>
+[TCP School](http://tcpschool.com/python2018/intro)
 
 ## 001
 "Hello World!" 를 출력합니다.
