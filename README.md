@@ -2,8 +2,8 @@
 파이썬 공부 내역을 올립니다!
 
 # 도움받은 곳
-[TCP School](http://tcpschool.com/python2018/intro)
-[코딩도장](https://dojang.io/course/view.php?id=7)
+* [TCP School](http://tcpschool.com/python2018/intro)
+* [코딩도장](https://dojang.io/course/view.php?id=7)
 
 # From TCP School
 
