@@ -7,32 +7,54 @@ class Game: # 게임 클래스
         mineList = set()
         self.boardSize = boardSize
         self.board = []
+        self.correctMineSelectCount = 0
+        self.mineCount = mineCount
 
         # 폭탄의 위치를 선정합니다.
         while len(mineList) < mineCount:
             mineList.add((random.randrange(0, boardSize), random.randrange(0, boardSize)))
 
         # 보드를 만듭니다.
+        for _ in range(boardSize):
+            rowList = []
+            for __ in range(boardSize):
+                rowList.append(Field())
+            self.board.append(rowList)
+
+        # 지뢰의 위치를 보드에 적용합니다.
+        for minePoint in mineList:
+            x = minePoint[0]
+            y = minePoint[1]
+            self.board[x][y].setFieldType(Field.MINE)
         
+        self.printBoard()
     
     def startGame(self):
         self.printBoard()
-#        while len(mineList) > 0: # 지뢰가 0개 이하가 될때까지 무한루프
-#            pass
+        while self.correctMineSelectCount < self.mineCount: # 지뢰가 0개 이하가 될때까지 무한루프
+            pass
     
     def printBoard(self):
-        for i in self.board:
-            for j in self.board[i]:
+        print('  ', end = '')
+        for i in range(self.boardSize):
+            print(i, end = ' ')
+        print('')
+        for i in range(self.boardSize):
+            print(i, end = ' ')
+            for j in range(self.boardSize):
                 print(self.board[i][j].toString(), end = ' ')
             print('')
 
 class Field: # 필드 하나 클래스
-    MINE = -1
+    MINE = 9
 
-    def __init__(self, fieldType):
-        self.fieldType = fieldType # fieldType : 해당 위치에 보여줄 숫자.
+    def __init__(self):
+        self.fieldType = 0 # fieldType : 해당 위치에 보여줄 숫자.
         self.flag = False
-        self.open = False
+        self.open = True
+    
+    def setFieldType(self, fieldType):
+        self.fieldType = fieldType
     
     def toString(self):
         if self.open:
@@ -44,4 +66,4 @@ class Field: # 필드 하나 클래스
                 return '.'
 
 game = Game(9, 10)
-game.startGame()
+#game.startGame()
