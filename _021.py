@@ -27,6 +27,11 @@ class Game: # 게임 클래스
             y = minePoint[1]
             self.board[x][y].setFieldType(Field.MINE)
         
+        # 각 칸의 숫자를 적용합니다.
+        for i in range(boardSize):
+            for j in range(boardSize):
+                if not self.board[i][j].isMine():
+                    self.board[i][j].setFieldType(self.calculateLoc(i, j))
         self.printBoard()
     
     def startGame(self):
@@ -35,15 +40,29 @@ class Game: # 게임 클래스
             pass
     
     def printBoard(self):
-        print('  ', end = '')
+        print('  │', end = '')
         for i in range(self.boardSize):
             print(i, end = ' ')
         print('')
+        print('──┼' + '──' * self.boardSize)
         for i in range(self.boardSize):
-            print(i, end = ' ')
+            print(i, '│', end = '')
             for j in range(self.boardSize):
                 print(self.board[i][j].toString(), end = ' ')
             print('')
+
+    def calculateLoc(self, x, y):
+        target = [(-1, -1), (-1, 0), (-1, 1), (0, -1), (0, 1), (1, -1), (1, 0), (1, 1)]
+        result = 0
+
+        for calTarget in target:
+            dx = calTarget[0]
+            dy = calTarget[1]
+            if (0 <= x + dx < self.boardSize) and (0 <= y + dy < self.boardSize):
+                if self.board[x + dx][y + dy].isMine():
+                    result += 1
+
+        return result
 
 class Field: # 필드 하나 클래스
     MINE = 9
@@ -56,9 +75,15 @@ class Field: # 필드 하나 클래스
     def setFieldType(self, fieldType):
         self.fieldType = fieldType
     
+    def isMine(self):
+        return (self.fieldType == Field.MINE)
+    
     def toString(self):
         if self.open:
-            return self.fieldType
+            if self.fieldType == Field.MINE:
+                return '*'
+            else:
+                return self.fieldType
         else:
             if self.flag:
                 return 'F'
