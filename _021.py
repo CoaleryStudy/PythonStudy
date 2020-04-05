@@ -32,14 +32,43 @@ class Game: # 게임 클래스
             for j in range(boardSize):
                 if not self.board[i][j].isMine():
                     self.board[i][j].setFieldType(self.calculateLoc(i, j))
-        self.printBoard()
     
     def startGame(self):
-        self.printBoard()
-        while self.correctMineSelectCount < self.mineCount: # 지뢰가 0개 이하가 될때까지 무한루프
-            pass
+        try:
+            while self.correctMineSelectCount < self.mineCount: # 지뢰가 0개 이하가 될때까지 무한루프
+                self.printBoard()
+                selX, selY = self.inputPosition()
+                self.selectPosition(selX, selY)
+        except KeyboardInterrupt:
+            print("게임 강제 종료")
     
+    def inputPosition(self):
+        while True: # 제대로 된 값이 입력될 때 까지 무한루프
+            try:
+                x, y = map(int, input('움직이려는 위치 입력 : ').split())
+                break
+            except ValueError:
+                pass
+        return x, y
+
+    def selectPosition(self, x, y):
+        if self.board[x][y].isOpen(): # 이미 다녀간 위치라면 리턴
+            return
+        self.board[x][y].openField() # 해당 필드를 연다
+        if self.board[x][y].getFieldType() != 0: # 해당 필드 주위에 폭탄이 없다면 리턴 (더 이상 전진할 필요가 없다.)
+            return
+        
+        if x + 1 < self.boardSize:
+            self.selectPosition(x+1, y)
+        if x - 1 >= 0:
+            self.selectPosition(x-1, y)
+        if y + 1 < self.boardSize:
+            self.selectPosition(x, y+1)
+        if y - 1 >= 0:
+            self.selectPosition(x, y-1)
+
     def printBoard(self):
+        print('\n' * 10)
         print('  │', end = '')
         for i in range(self.boardSize):
             print(i, end = ' ')
@@ -70,11 +99,24 @@ class Field: # 필드 하나 클래스
     def __init__(self):
         self.fieldType = 0 # fieldType : 해당 위치에 보여줄 숫자.
         self.flag = False
-        self.open = True
+        self.open = False
     
     def setFieldType(self, fieldType):
         self.fieldType = fieldType
     
+    def getFieldType(self):
+        return self.fieldType
+
+    def openField(self):
+        self.open = True
+    
+    def flagFieldToggle(self):
+        if not self.open:
+            self.flag = not self.flag
+    
+    def isOpen(self):
+        return self.open
+
     def isMine(self):
         return (self.fieldType == Field.MINE)
     
@@ -91,4 +133,4 @@ class Field: # 필드 하나 클래스
                 return '.'
 
 game = Game(9, 10)
-#game.startGame()
+game.startGame()
