@@ -1,9 +1,11 @@
 # PythonStudy
 파이썬 공부 내역을 올립니다!
 
+
 # 도움받은 곳
 * [TCP School](http://tcpschool.com/python2018/intro)
 * [코딩도장](https://dojang.io/course/view.php?id=7)
+
 
 # From TCP School
 
@@ -64,6 +66,7 @@ input 문을 통하여 값을 입력받는 것을 연습합니다.
 ## 019
 예외 처리를 연습합니다.
 
+
 # From 코딩도장
 
 ## 020
@@ -83,6 +86,9 @@ print 문의 sep, end 를 활용합니다.
 
 ## 026
 코딩도장 심사문제 17.6
+
+## 027
+코딩도장 심사문제 18.6
 
 
 # 그 외
