@@ -182,6 +182,9 @@ isinstance 를 공부합니다.
 ## 057
 @staticmethod 를 공부합니다.
 
+## 058
+@classmethod 를 공부합니다.
+
 
 # 그 외
 
