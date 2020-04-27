@@ -1,3 +1,4 @@
 .vscode/
+calcpkg/
 *.pyc
 *.txt
