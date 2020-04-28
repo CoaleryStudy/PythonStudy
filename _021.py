@@ -67,7 +67,7 @@ class Game: # 게임 클래스
         if y - 1 >= 0:
             self.selectPosition(x, y-1)
 
-    def printBoard(self):
+    def printBoard(self): # 보드 출력
         print('\n' * 10)
         print('  │', end = '')
         for i in range(self.boardSize):
