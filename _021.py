@@ -1,5 +1,9 @@
 import random
 
+class SelectMine(Exception):
+    def __init__(self, msg="폭탄을 선택하였습니다."):
+        super().__init__(msg)
+
 class Game: # 게임 클래스
     def __init__(self, boardSize, mineCount):
         if mineCount > boardSize * boardSize:
@@ -41,31 +45,35 @@ class Game: # 게임 클래스
                 self.selectPosition(selX, selY)
         except KeyboardInterrupt:
             print("게임 강제 종료")
+        except SelectMine:
+            print("폭탄을 선택하였습니다. 게임 종료.")
     
     def inputPosition(self):
         while True: # 제대로 된 값이 입력될 때 까지 무한루프
             try:
-                x, y = map(int, input('움직이려는 위치 입력 : ').split())
+                x, y = map(int, input('위치 입력 : ').split())
                 break
             except ValueError:
                 pass
         return x, y
 
-    def selectPosition(self, x, y):
+    def selectPosition(self, x, y, first = True):
+        if self.board[x][y].getFieldType() == Field.MINE:
+            raise SelectMine
         if self.board[x][y].isOpen(): # 이미 다녀간 위치라면 리턴
             return
         self.board[x][y].openField() # 해당 필드를 연다
-        if self.board[x][y].getFieldType() != 0: # 해당 필드 주위에 폭탄이 없다면 리턴 (더 이상 전진할 필요가 없다.)
+        if self.board[x][y].getFieldType() != 0: # 해당 필드 주위에 빈칸이 없다면 리턴 (더 이상 전진할 필요가 없다.)
             return
         
         if x + 1 < self.boardSize:
-            self.selectPosition(x+1, y)
+            self.selectPosition(x+1, y, False)
         if x - 1 >= 0:
-            self.selectPosition(x-1, y)
+            self.selectPosition(x-1, y, False)
         if y + 1 < self.boardSize:
-            self.selectPosition(x, y+1)
+            self.selectPosition(x, y+1, False)
         if y - 1 >= 0:
-            self.selectPosition(x, y-1)
+            self.selectPosition(x, y-1, False)
 
     def printBoard(self): # 보드 출력
         print('\n' * 10)
