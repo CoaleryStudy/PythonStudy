@@ -13,3 +13,4 @@
 |File Name|Description|
 |:---:|---|
 |ML_001|Hello World!|
+|ML_002|tf.function 데코레이터를 공부합니다.|
